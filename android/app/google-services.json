@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190904833059",
+    "project_id": "alxify",
+    "storage_bucket": "alxify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190904833059:android:325df0d2da98e19a59cd96",
+        "android_client_info": {
+          "package_name": "com.example.alxify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPuVcj0rSM5J_CTFJ1_3O0goiiop6tJ9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
