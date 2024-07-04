@@ -1,9 +1,35 @@
+import 'package:alxify/components/track_tile.dart';
+import 'package:alxify/providers/album_provider.dart';
 import 'package:alxify/screens/now_playing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
-class AlbumScreen extends StatelessWidget {
-  const AlbumScreen({super.key});
+class AlbumScreen extends StatefulWidget {
+  final String albumId;
+  final String name;
+  final String owner;
+  final String albumCoverArt;
+
+  const AlbumScreen({
+    super.key,
+    required this.albumId,
+    required this.name,
+    required this.owner,
+    required this.albumCoverArt,
+  });
+
+  @override
+  State<AlbumScreen> createState() => _AlbumScreenState();
+}
+
+class _AlbumScreenState extends State<AlbumScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AlbumProvider>().getAlbumTracksById(albumId: widget.albumId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,41 +40,61 @@ class AlbumScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      "assets/images/billie.png",
-                      fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      width: double.infinity,
-                    ),
+        child: Consumer<AlbumProvider>(
+          builder: (context, albumProvider, _) {
+            if (albumProvider.isFetchingAlbum) {
+              return const Center(
+                child: SpinKitFadingFour(
+                  color: Color(0xff959595),
+                  size: 20,
+                ),
+              );
+            }
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          widget.albumCoverArt,
+                          fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          width: double.infinity,
+                        ),
+                      ),
+                      const Gap(16),
+                      Text(
+                        "${widget.name} - ${widget.owner}",
+                        style: const TextStyle(
+                          color: Color(0xffDFDFDF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                        ),
+                      ),
+                    ],
                   ),
-                  const Gap(16),
-                  const Text(
-                    "Purpose - Billie Eilish",
-                    style: TextStyle(
-                      color: Color(0xffDFDFDF),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SliverList.separated(
-              itemBuilder: (context, index) {
-                return const SizedBox();
-              },
-              separatorBuilder: (context, index) => const Gap(16),
-              itemCount: 2,
-            )
-          ],
+                ),
+                SliverList.separated(
+                  itemBuilder: (context, index) {
+                    return TrackTile(
+                      trackImage: "",
+                      artist: albumProvider.tracks[index].artists.join(", "),
+                      name: albumProvider.tracks[index].name,
+                      duration: Duration(
+                          milliseconds:
+                              albumProvider.tracks[index].durationInMs),
+                      trackId: albumProvider.tracks[index].id,
+                    );
+                  },
+                  separatorBuilder: (context, index) => const Gap(16),
+                  itemCount: albumProvider.tracks.length,
+                )
+              ],
+            );
+          },
         ),
       ),
     );

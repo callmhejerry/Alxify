@@ -20,4 +20,11 @@ class MusicService {
     final response = await client.get(url: url);
     return response;
   }
+
+  Future<Map<String, dynamic>?> getAlbumTracks(String albumId) async {
+    final url =
+        'https://spotify23.p.rapidapi.com/album_tracks/?id=$albumId&offset=0&limit=300';
+    final response = await client.get(url: url);
+    return response;
+  }
 }

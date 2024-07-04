@@ -1,4 +1,5 @@
 import 'package:alxify/models/alxify_music_model.dart';
+import 'package:alxify/providers/album_provider.dart';
 import 'package:alxify/providers/home_provider.dart';
 import 'package:alxify/providers/track_player_provider.dart';
 import 'package:alxify/screens/album_screen.dart';
@@ -46,6 +47,7 @@ class HomeScreen extends StatelessWidget {
             if (homeProvider.isLoading) {
               return const Center(
                 child: SpinKitFadingFour(
+                  size: 25,
                   color: Color(0xff959595),
                 ),
               );
@@ -106,10 +108,23 @@ class HomeSuccessScreen extends StatelessWidget {
                       splashFactory: NoSplash.splashFactory,
                       splashColor: Colors.transparent,
                       onTap: () {
+                        String albumId = data.albums[index]['data']['uri'];
+                        albumId = albumId.split(":").last;
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AlbumScreen(),
+                            builder: (context) => ChangeNotifierProvider.value(
+                              value: AlbumProvider(),
+                              child: AlbumScreen(
+                                albumCoverArt: data.albums[index]['data']
+                                    ['coverArt']['sources'][index]['url'],
+                                name: data.albums[index]['data']['name'],
+                                albumId: albumId,
+                                owner: data.albums[index]['data']['artists']
+                                    ['items'][index]['profile']['name'],
+                              ),
+                            ),
                           ),
                         );
                       },
