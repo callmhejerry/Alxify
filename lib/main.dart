@@ -1,6 +1,8 @@
+import 'package:alxify/providers/auth_provider.dart';
 import 'package:alxify/providers/home_provider.dart';
 import 'package:alxify/providers/track_player_provider.dart';
 import 'package:alxify/screens/app.dart';
+import 'package:alxify/screens/register_or_sign_up_screen.dart';
 import 'package:alxify/theme/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,8 @@ class Alxify extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => TrackPlayerProvider(),
-        )
+        ),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -38,8 +41,23 @@ class Alxify extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const App(),
+        home: const AuthController(),
       ),
     );
+  }
+}
+
+class AuthController extends StatelessWidget {
+  const AuthController({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthProvider>(builder: (context, authProvider, _) {
+      if (authProvider.isUserLoggedIn()) {
+        return const App();
+      } else {
+        return const RegisterOrSignUpScreen();
+      }
+    });
   }
 }

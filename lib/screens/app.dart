@@ -1,10 +1,13 @@
 import 'package:alxify/components/app_bottom_bar.dart';
+import 'package:alxify/main.dart';
+import 'package:alxify/providers/auth_provider.dart';
 import 'package:alxify/screens/discovery_screen.dart';
 import 'package:alxify/screens/favorites_screen.dart';
 import 'package:alxify/screens/profile_screen.dart';
 import 'package:alxify/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import 'home_screen.dart';
 
@@ -62,9 +65,19 @@ class _AppState extends State<App> {
   ];
 
   void onTap(int index) {
-    setState(() {
-      selectedItem = index;
-    });
+    if (index == 3) {
+      context.read<AuthProvider>().logOut();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AuthController(),
+        ),
+      );
+    } else {
+      setState(() {
+        selectedItem = index;
+      });
+    }
   }
 
   @override

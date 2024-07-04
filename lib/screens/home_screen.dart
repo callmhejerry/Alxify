@@ -2,7 +2,6 @@ import 'package:alxify/models/alxify_music_model.dart';
 import 'package:alxify/providers/home_provider.dart';
 import 'package:alxify/providers/track_player_provider.dart';
 import 'package:alxify/screens/album_screen.dart';
-import 'package:alxify/screens/artist_profile_screen.dart';
 import 'package:alxify/screens/now_playing_screen.dart';
 import 'package:alxify/theme/colors.dart';
 import 'package:audioplayers/audioplayers.dart';

@@ -5,7 +5,9 @@ import 'package:flutter/foundation.dart';
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    print(err);
+    if (kDebugMode) {
+      print(err);
+    }
     if (err.response != null || err.type == DioExceptionType.badResponse) {
       final statusCode = err.response?.data["error"]["status"];
       final message = err.response?.data["error"]["message"];

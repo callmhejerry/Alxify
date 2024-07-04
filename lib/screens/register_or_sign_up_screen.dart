@@ -1,3 +1,5 @@
+import 'package:alxify/screens/register_screen.dart';
+import 'package:alxify/screens/sign_in_screen.dart';
 import 'package:alxify/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -68,7 +70,14 @@ class RegisterOrSignUpScreen extends StatelessWidget {
                   Row(
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                           shape: RoundedRectangleBorder(
@@ -86,12 +95,22 @@ class RegisterOrSignUpScreen extends StatelessWidget {
                         ),
                       ),
                       const Gap(88),
-                      const Text(
-                        "Sign in",
-                        style: TextStyle(
-                          color: Color(0xffD7D7D7),
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SigninScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Sign in",
+                          style: TextStyle(
+                            color: Color(0xffD7D7D7),
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
