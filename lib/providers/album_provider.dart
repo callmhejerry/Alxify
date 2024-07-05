@@ -17,11 +17,12 @@ class AlbumProvider extends ChangeNotifier {
         final List rawtracks = album["data"]['album']['tracks']['items'];
 
         for (var track in rawtracks) {
-          final id = track["uid"];
-          final name = track["name"];
-          final durationInMs = track["duration"]['totalMilliseconds'];
+          final id = (track['track']["uri"] as String).split(":").last;
+          final name = track['track']["name"];
+          final durationInMs = track['track']["duration"]['totalMilliseconds'];
           final List<String> artists =
-              (track['artists']['items'] as List).map<String>((artist) {
+              (track['track']['artists']['items'] as List)
+                  .map<String>((artist) {
             return artist['profile']['name'];
           }).toList();
 
@@ -36,6 +37,7 @@ class AlbumProvider extends ChangeNotifier {
         }
       } else {
         errorInFetchingAlbum = "Failed to get albums";
+        isFetchingAlbum = false;
         notifyListeners();
       }
     } catch (e) {

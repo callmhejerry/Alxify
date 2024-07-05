@@ -36,17 +36,18 @@ class _AlbumScreenState extends State<AlbumScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        title: const Text(""),
         leading: const AppBackButton(),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Consumer<AlbumProvider>(
           builder: (context, albumProvider, _) {
             if (albumProvider.isFetchingAlbum) {
               return const Center(
                 child: SpinKitFadingFour(
                   color: Color(0xff959595),
-                  size: 20,
+                  size: 25,
                 ),
               );
             }
@@ -77,6 +78,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                     ],
                   ),
                 ),
+                const SliverGap(16),
                 SliverList.separated(
                   itemBuilder: (context, index) {
                     return TrackTile(
@@ -91,7 +93,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
                   },
                   separatorBuilder: (context, index) => const Gap(16),
                   itemCount: albumProvider.tracks.length,
-                )
+                ),
+                SliverGap(MediaQuery.of(context).padding.bottom),
               ],
             );
           },

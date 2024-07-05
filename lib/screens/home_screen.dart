@@ -110,6 +110,7 @@ class HomeSuccessScreen extends StatelessWidget {
                       onTap: () {
                         String albumId = data.albums[index]['data']['uri'];
                         albumId = albumId.split(":").last;
+                        debugPrint(albumId);
 
                         Navigator.push(
                           context,
@@ -118,11 +119,11 @@ class HomeSuccessScreen extends StatelessWidget {
                               value: AlbumProvider(),
                               child: AlbumScreen(
                                 albumCoverArt: data.albums[index]['data']
-                                    ['coverArt']['sources'][index]['url'],
+                                    ['coverArt']['sources'][0]['url'],
                                 name: data.albums[index]['data']['name'],
                                 albumId: albumId,
                                 owner: data.albums[index]['data']['artists']
-                                    ['items'][index]['profile']['name'],
+                                    ['items'][0]['profile']['name'],
                               ),
                             ),
                           ),
