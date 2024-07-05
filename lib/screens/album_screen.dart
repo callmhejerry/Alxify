@@ -28,19 +28,22 @@ class _AlbumScreenState extends State<AlbumScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AlbumProvider>().getAlbumTracksById(albumId: widget.albumId);
+    if (context.read<AlbumProvider>().tracks.isEmpty) {
+      context.read<AlbumProvider>().getAlbumTracksById(albumId: widget.albumId);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text(""),
         leading: const AppBackButton(),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Consumer<AlbumProvider>(
           builder: (context, albumProvider, _) {
             if (albumProvider.isFetchingAlbum) {
